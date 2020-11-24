@@ -1,0 +1,184 @@
+---
+title: "Exam 2"
+author: "Neshma simon"
+date: "11/23/2020"
+output: html_document
+---
+```
+attach(acs2017_ny)
+use_varb <- (AGE >= 25) & (AGE <= 55) & (LABFORCE == 2) & (WKSWORK2 > 4) & (UHRSWORK >= 35)
+dat_use <- subset(acs2017_ny,use_varb) # 
+detach()
+attach(dat_use)
+summary(dat_use)
+
+use_varb1 <- (AGE >= 25) & (AGE <= 55) & (LABFORCE == 2) & (WKSWORK2 > 4) & (UHRSWORK >= 35) & (female == 1) 
+summary(use_varb1)
+
+dat_use <- subset(acs2017_ny,use_varb)
+model_1 <- lm(INCWAGE ~ AGE + female)
+summary(model_1)
+
+Call:
+lm(formula = INCWAGE ~ AGE + female)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-95126 -39236 -17091  12909 590909 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  41134.96    1773.46   23.20   <2e-16 ***
+AGE            981.66      41.84   23.46   <2e-16 ***
+female      -18585.58     762.41  -24.38   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 82240 on 46968 degrees of freedom
+Multiple R-squared:  0.02401,	Adjusted R-squared:  0.02397 
+F-statistic: 577.7 on 2 and 46968 DF,  p-value: < 2.2e-16
+
+## Using different variables can help to determine whether it has any effect on the 
+dat_use <- subset(acs2017_ny,use_varb)
+model_2 <- lm(WKSWORK2 ~ AGE + female)
+summary(model_2)
+
+Call:
+lm(formula = WKSWORK2 ~ AGE + female)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.98098  0.02054  0.02155  0.02258  0.02449 
+
+Coefficients:
+              Estimate Std. Error  t value Pr(>|t|)    
+(Intercept)  5.974e+00  3.135e-03 1905.326   <2e-16 ***
+AGE          1.269e-04  7.398e-05    1.715   0.0864 .  
+female      -1.666e-03  1.348e-03   -1.236   0.2166    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1454 on 46968 degrees of freedom
+Multiple R-squared:  9.597e-05,	Adjusted R-squared:  5.339e-05 
+F-statistic: 2.254 on 2 and 46968 DF,  p-value: 0.105
+
+dat_use <- subset(acs2017_ny,use_varb)
+model_3 <- lm(WKSWORK2 ~ HHINCOME + female)
+summary(model_3)
+Call:
+lm(formula = WKSWORK2 ~ HHINCOME + female)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.97998  0.02046  0.02117  0.02235  0.03119 
+
+Coefficients:
+              Estimate Std. Error  t value Pr(>|t|)    
+(Intercept)  5.980e+00  1.166e-03 5127.029   <2e-16 ***
+HHINCOME    -4.588e-09  5.072e-09   -0.905    0.366    
+female      -1.864e-03  1.348e-03   -1.383    0.167    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1451 on 46765 degrees of freedom
+  (203 observations deleted due to missingness)
+Multiple R-squared:  5.703e-05,	Adjusted R-squared:  1.427e-05 
+F-statistic: 1.334 on 2 and 46765 DF,  p-value: 0.2635
+
+dat_use <- subset(acs2017_ny,use_varb)
+model_4 <- lm(WKSWORK2 ~ female)
+summary(model_4)
+Call:
+lm(formula = WKSWORK2 ~ female)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.97915  0.02085  0.02085  0.02253  0.02253 
+
+Coefficients:
+              Estimate Std. Error  t value Pr(>|t|)    
+(Intercept)  5.9791545  0.0009068 6593.862   <2e-16 ***
+female      -0.0016872  0.0013479   -1.252    0.211    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1454 on 46969 degrees of freedom
+Multiple R-squared:  3.336e-05,	Adjusted R-squared:  1.207e-05 
+F-statistic: 1.567 on 1 and 46969 DF,  p-value: 0.2107
+
+> summary(model_5)
+
+Call:
+lm(formula = WKSWORK2 ~ HHINCOME)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.97911  0.02117  0.02136  0.02162  0.02983 
+
+Coefficients:
+              Estimate Std. Error  t value Pr(>|t|)    
+(Intercept)  5.979e+00  9.821e-04 6088.392   <2e-16 ***
+HHINCOME    -4.407e-09  5.070e-09   -0.869    0.385    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1451 on 46766 degrees of freedom
+  (203 observations deleted due to missingness)
+Multiple R-squared:  1.615e-05,	Adjusted R-squared:  -5.228e-06 
+F-statistic: 0.7555 on 1 and 46766 DF,  p-value: 0.3847
+
+> log(model_5)
+Error in log(model_5) : non-numeric argument to mathematical function
+> dat_use <- subset(acs2017_ny,use_varb)
+> model_5 <- lm(female ~ HHINCOME)
+> summary(model_5)
+
+Call:
+lm(formula = female ~ HHINCOME)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.4679 -0.4569 -0.4395  0.5428  0.7304 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  4.668e-01  3.369e-03 138.574  < 2e-16 ***
+HHINCOME    -9.715e-08  1.739e-08  -5.586 2.33e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4976 on 46766 degrees of freedom
+  (203 observations deleted due to missingness)
+Multiple R-squared:  0.0006668,	Adjusted R-squared:  0.0006455 
+F-statistic: 31.21 on 1 and 46766 DF,  p-value: 2.333e-08
+
+> log(model_5)
+Error in log(model_5) : non-numeric argument to mathematical function
+> model_temp1 <- lm(UHRSWORK ~ WKSWORK2 + female + HHINCOME+ LABFORCE)
+> summary(model_temp1)
+
+Call:
+lm(formula = UHRSWORK ~ WKSWORK2 + female + HHINCOME + LABFORCE)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-24.644  -4.634  -2.374   2.870  57.979 
+
+Coefficients: (1 not defined because of singularities)
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.649e+01  1.537e+00  23.744  < 2e-16 ***
+WKSWORK2     1.157e+00  2.568e-01   4.506 6.61e-06 ***
+female      -2.580e+00  7.487e-02 -34.463  < 2e-16 ***
+HHINCOME     1.162e-05  2.816e-07  41.263  < 2e-16 ***
+LABFORCE            NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.057 on 46764 degrees of freedom
+  (203 observations deleted due to missingness)
+Multiple R-squared:  0.06003,	Adjusted R-squared:  0.05997 
+F-statistic: 995.5 on 3 and 46764 DF,  p-value: < 2.2e-16
+
+pick_use1 <- (acs2017_ny$AGE >25) & (acs2017_ny$AGE <= 55)
+dat_use1 <- subset(acs2017_ny, pick_use1)
+```
